@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "custom-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "custom-plugin": {
+      "factory": "./src/generators/custom-plugin/generator",
+      "schema": "./src/generators/custom-plugin/schema.json",
+      "description": "custom-plugin generator"
+    }
+  }
+}
