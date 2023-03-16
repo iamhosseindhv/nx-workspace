@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bug-repro/custom-plugin": ["packages/custom-plugin/src/index.ts"]
+      "@bug-repro/custom-plugin": ["packages/custom-plugin/src/index.ts"],
+      "@bug-repro/my-lib": ["packages/my-lib/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
