@@ -1,13 +1,13 @@
-import * as cdk from 'aws-cdk-lib'
-import * as codepipeline from 'aws-cdk-lib/aws-codepipeline'
-import * as iam from 'aws-cdk-lib/aws-iam'
-import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions'
-import * as codecommit from 'aws-cdk-lib/aws-codecommit'
-import * as codebuild from 'aws-cdk-lib/aws-codebuild'
+import * as cdk from 'aws-cdk-lib';
+import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
+import * as codecommit from 'aws-cdk-lib/aws-codecommit';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 
-import { Construct } from 'constructs'
+import { Construct } from 'constructs';
 
-const app = new cdk.App()
+const app = new cdk.App();
 
 class PipelineStack extends cdk.Stack {
   constructor(
@@ -15,9 +15,9 @@ class PipelineStack extends cdk.Stack {
     id: string,
     props: cdk.StackProps & { repositoryName: string }
   ) {
-    super(app, id, props)
+    super(app, id, props);
 
-    const sourceOutput = new codepipeline.Artifact()
+    const sourceOutput = new codepipeline.Artifact();
 
     const pipelineRole = new iam.Role(this, 'PipelineRole', {
       roleName: `${props.stackName}-reproduction-role`,
@@ -26,7 +26,7 @@ class PipelineStack extends cdk.Stack {
         new iam.ServicePrincipal('codebuild.amazonaws.com'),
         new iam.ServicePrincipal('codepipeline.amazonaws.com')
       ),
-    })
+    });
 
     pipelineRole.addToPolicy(
       new iam.PolicyStatement({
@@ -47,13 +47,13 @@ class PipelineStack extends cdk.Stack {
         effect: iam.Effect.ALLOW,
         resources: ['*'],
       })
-    )
+    );
 
     const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       role: pipelineRole,
       pipelineName: props.stackName,
       crossAccountKeys: false,
-    })
+    });
 
     pipeline.addStage({
       stageName: 'Source',
@@ -71,7 +71,7 @@ class PipelineStack extends cdk.Stack {
           output: sourceOutput,
         }),
       ],
-    })
+    });
 
     pipeline.addStage({
       stageName: 'CI',
@@ -113,7 +113,7 @@ class PipelineStack extends cdk.Stack {
           }),
         }),
       ],
-    })
+    });
   }
 }
 
@@ -124,4 +124,4 @@ new PipelineStack(app, 'MyStack', {
     account: '352405683916',
     region: 'eu-west-1',
   },
-})
+});
